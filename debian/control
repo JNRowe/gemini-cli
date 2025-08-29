@@ -2,7 +2,7 @@ Source: gemini-cli
 Section: utils
 Priority: optional
 Maintainer: Gemini CLI Team <no-reply@google.com>
-Build-Depends: debhelper-compat (= 13), nodejs
+Build-Depends: debhelper-compat (= 13)
 Standards-Version: 4.6.2
 
 Package: gemini-cli
