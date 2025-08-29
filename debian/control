@@ -1,0 +1,12 @@
+Source: gemini-cli
+Section: utils
+Priority: optional
+Maintainer: Gemini CLI Team <no-reply@google.com>
+Build-Depends: debhelper-compat (= 13), nodejs
+Standards-Version: 4.6.2
+
+Package: gemini-cli
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, node-node-pty
+Description: Gemini CLI
+ A command-line interface for interacting with Gemini.
