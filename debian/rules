@@ -2,3 +2,8 @@
 
 %:
 	dh $@ --with=nodejs
+
+override_dh_install:
+	dh_install
+	mkdir -p debian/gemini-cli/usr/bin
+	install -m 755 debian/gemini.sh debian/gemini-cli/usr/bin/gemini
