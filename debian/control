@@ -8,7 +8,8 @@ Standards-Version: 4.6.2
 Package: gemini-cli
 Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends}, node-node-pty
-Description: A command-line interface for interacting with Gemini.
+X-Nodejs-Provides: node-google-gemini-cli
+Description: Command-line interface for interacting with Gemini.
  The Gemini CLI provides a command-line interface to interact with the Gemini API.
  It allows users to perform various tasks such as generating text,
  chatting with the model, and managing Gemini-related configurations.
