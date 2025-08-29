@@ -32,11 +32,14 @@ jobs:
     - name: Build Debian package
       run: dpkg-buildpackage -us -uc
 
+    - name: Set artifact path
+      run: echo "ARTIFACT_PATH=$(dirname ${{ github.workspace }})" >> $GITHUB_ENV
+
     - name: Upload Debian package artifact
       uses: actions/upload-artifact@v4
       with:
         name: gemini-cli-deb
-        path: | 
-          ../gemini-cli_*.deb
-          ../gemini-cli_*.buildinfo
-          ../gemini-cli_*.changes
+        path: |
+          ${{ env.ARTIFACT_PATH }}/gemini-cli_*.deb
+          ${{ env.ARTIFACT_PATH }}/gemini-cli_*.buildinfo
+          ${{ env.ARTIFACT_PATH }}/gemini-cli_*.changes
