@@ -1,3 +1,9 @@
+gemini-cli (0.2.2-4) unstable; urgency=medium
+
+  * Add documentation to the Debian package.
+
+ -- Gemini CLI Team <no-reply@google.com>  Fri, 29 Aug 2025 13:30:00 +0000
+
 gemini-cli (0.2.2-3) unstable; urgency=medium
 
   * Add man page (gemini.1).
