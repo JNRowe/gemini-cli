@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - debian_package
   pull_request:
     branches:
       - main
