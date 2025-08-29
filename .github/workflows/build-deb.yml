@@ -22,19 +22,26 @@ jobs:
       with:
         node-version: '20'
 
+    - name: Prepare Debian environment
+      run: |
+        # We don't need man-db updates for throwaway installs
+        echo "set man-db/auto-update false" | sudo debconf-communicate
+        sudo dpkg-reconfigure man-db
+
     - name: Install dependencies
       run: npm ci
 
     - name: Install build dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential debhelper dh-nodejs
+        sudo apt-get install -qq --yes eatmydata
+        sudo eatmydata apt-get -qq update
+        sudo eatmydata apt-get install -qq -y build-essential debhelper dh-nodejs
 
     - name: Build Debian package
       run: dpkg-buildpackage -us -uc
 
     - name: Install lintian
-      run: sudo apt-get install -y lintian
+      run: sudo eatmydata apt-get install -qq -y lintian
 
     - name: Run lintian
       run: lintian ../*.deb
