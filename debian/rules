@@ -6,6 +6,6 @@
 override_dh_install:
 	dh_install
 	dh_installman
-	dh_installdocs README.md
+	dh_installdocs README.md docs
 	mkdir -p debian/gemini-cli/usr/bin
 	install -m 755 debian/gemini.sh debian/gemini-cli/usr/bin/gemini
