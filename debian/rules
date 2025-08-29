@@ -9,3 +9,4 @@ override_dh_install:
 	dh_installdocs README.md docs
 	mkdir -p debian/gemini-cli/usr/bin
 	install -m 755 debian/gemini.sh debian/gemini-cli/usr/bin/gemini
+	chmod +x debian/gemini-cli/usr/share/nodejs/@google/gemini-cli/bundle/gemini.js
