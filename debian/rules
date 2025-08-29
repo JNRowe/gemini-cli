@@ -1,4 +1,16 @@
 #!/usr/bin/make -f
 
 %:
-	dh $@ --with=nodejs --buildsystem=npm
+	dh $@ --buildsystem=npm
+
+override_dh_auto_clean:
+	npm run clean
+
+override_dh_auto_build:
+	npm run build
+
+override_dh_auto_install:
+	dh_auto_install --destdir=$(CURDIR)/debian/gemini-cli --with=npm --npm-install=false
+	# Install the bundled files to the correct location
+	mkdir -p debian/gemini-cli/usr/bin
+	cp -r bundle/* debian/gemini-cli/usr/bin/
