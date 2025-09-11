@@ -59,7 +59,7 @@ jobs:
       run: eatmydata npm ci
 
     - name: Build Debian package
-      run: dpkg-buildpackage -us -uc
+      run: dpkg-buildpackage -us -uc -j$(nproc)
 
     - name: Install lintian
       run: sudo eatmydata apt-get install -qq -y lintian
