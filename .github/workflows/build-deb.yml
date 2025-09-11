@@ -41,14 +41,14 @@ jobs:
         echo "set man-db/auto-update false" | sudo debconf-communicate
         sudo dpkg-reconfigure man-db
 
-    - name: Install dependencies
-      run: npm ci
-
     - name: Install build dependencies
       run: |
         sudo apt-get install -qq --yes eatmydata
         sudo eatmydata apt-get -qq update
         sudo eatmydata apt-get install -qq -y build-essential debhelper dh-nodejs
+
+    - name: Install dependencies
+      run: eatmydata npm ci
 
     - name: Build Debian package
       run: dpkg-buildpackage -us -uc
