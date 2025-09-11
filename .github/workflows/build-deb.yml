@@ -47,6 +47,14 @@ jobs:
         sudo eatmydata apt-get -qq update
         sudo eatmydata apt-get install -qq -y build-essential debhelper dh-nodejs
 
+    - name: Cache npm packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-npm-
+
     - name: Install dependencies
       run: eatmydata npm ci
 
