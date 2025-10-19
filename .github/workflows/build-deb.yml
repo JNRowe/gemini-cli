@@ -63,6 +63,4 @@ jobs:
         with:
           name: debian_package
           path: |
-            ${{ env.ARTIFACT_PATH }}/gemini-cli_*.deb
-            ${{ env.ARTIFACT_PATH }}/gemini-cli_*.buildinfo
-            ${{ env.ARTIFACT_PATH }}/gemini-cli_*.changes
+            ${{ env.ARTIFACT_PATH }}/gemini-cli_*
