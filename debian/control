@@ -10,6 +10,6 @@ Architecture: all
 Depends: ${misc:Depends}, nodejs (>= ${nodejs:Version}), node-node-pty
 Provides: ${nodejs:Provides}
 Description: Command-line interface for interacting with Gemini.
- The Gemini CLI provides a command-line interface to interact with the Gemini API.
- It allows users to perform various tasks such as generating text,
- chatting with the model, and managing Gemini-related configurations.
+  The Gemini CLI provides a command-line interface to interact with the Gemini
+  API. It allows users to perform various tasks such as generating text,
+  chatting with the model, and managing Gemini-related configurations.
