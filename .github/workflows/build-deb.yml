@@ -10,60 +10,60 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-      with:
-        fetch-depth: 0
-        fetch-tags: true
-        persist-credentials: false
+      - name: Checkout repository
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+          persist-credentials: false
 
-    - name: Update package version
-      run: |
-        LATEST_TAG=$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*' |
-          sort --reverse --version-sort |
-          sed 's,^v,,; q')
-        COMMIT_COUNT=$(git rev-list v$LATEST_TAG.. --count)
-        COMMIT=$(git rev-parse --short HEAD)
-        PACKAGE_VERSION="${LATEST_TAG/-/\~}+git${COMMIT_COUNT}.${COMMIT}"
-        sed -i "s@PACKAGE_VERSION@$PACKAGE_VERSION@;s@PACKAGE_DATE@$(date -R)@" debian/changelog
+      - name: Update package version
+        run: |
+          LATEST_TAG=$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*' |
+            sort --reverse --version-sort |
+            sed 's,^v,,; q')
+          COMMIT_COUNT=$(git rev-list v$LATEST_TAG.. --count)
+          COMMIT=$(git rev-parse --short HEAD)
+          PACKAGE_VERSION="${LATEST_TAG/-/\~}+git${COMMIT_COUNT}.${COMMIT}"
+          sed -i "s@PACKAGE_VERSION@$PACKAGE_VERSION@;s@PACKAGE_DATE@$(date -R)@" debian/changelog
 
-    - name: Set up Node.js
-      uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
-      with:
-        node-version: '20'
+      - name: Set up Node.js
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+        with:
+          node-version: "20"
 
-    - name: Prepare Debian environment
-      run: |
-        # We don't need man-db updates for throwaway installs
-        echo "set man-db/auto-update false" | sudo debconf-communicate
-        sudo dpkg-reconfigure man-db
+      - name: Prepare Debian environment
+        run: |
+          # We don't need man-db updates for throwaway installs
+          echo "set man-db/auto-update false" | sudo debconf-communicate
+          sudo dpkg-reconfigure man-db
 
-    - name: Install build dependencies
-      run: |
-        sudo apt-get install -qq --yes eatmydata
-        sudo eatmydata apt-get -qq update
-        sudo eatmydata apt-get install -qq -y build-essential debhelper dh-nodejs
+      - name: Install build dependencies
+        run: |
+          sudo apt-get install -qq --yes eatmydata
+          sudo eatmydata apt-get -qq update
+          sudo eatmydata apt-get install -qq -y build-essential debhelper dh-nodejs
 
-    - name: Install dependencies
-      run: eatmydata npm ci
+      - name: Install dependencies
+        run: eatmydata npm ci
 
-    - name: Build Debian package
-      run: dpkg-buildpackage -us -uc -j$(nproc)
+      - name: Build Debian package
+        run: dpkg-buildpackage -us -uc -j$(nproc)
 
-    - name: Install lintian
-      run: sudo eatmydata apt-get install -qq -y lintian
+      - name: Install lintian
+        run: sudo eatmydata apt-get install -qq -y lintian
 
-    - name: Run lintian
-      run: lintian ../*.deb
+      - name: Run lintian
+        run: lintian ../*.deb
 
-    - name: Set artifact path
-      run: echo "ARTIFACT_PATH=$(dirname ${{ github.workspace }})" >> $GITHUB_ENV
+      - name: Set artifact path
+        run: echo "ARTIFACT_PATH=$(dirname ${{ github.workspace }})" >> $GITHUB_ENV
 
-    - name: Upload Debian package artifact
-      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
-      with:
-        name: debian_package
-        path: | 
-          ${{ env.ARTIFACT_PATH }}/gemini-cli_*.deb
-          ${{ env.ARTIFACT_PATH }}/gemini-cli_*.buildinfo
-          ${{ env.ARTIFACT_PATH }}/gemini-cli_*.changes
+      - name: Upload Debian package artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: debian_package
+          path: |
+            ${{ env.ARTIFACT_PATH }}/gemini-cli_*.deb
+            ${{ env.ARTIFACT_PATH }}/gemini-cli_*.buildinfo
+            ${{ env.ARTIFACT_PATH }}/gemini-cli_*.changes
