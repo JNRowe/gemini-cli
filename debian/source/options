@@ -1,3 +1,4 @@
 tar-ignore = .git
 tar-ignore = .github
 tar-ignore = integration-tests
+tar-ignore = bundle/gemini.js
