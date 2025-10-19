@@ -27,7 +27,7 @@ jobs:
         sed -i "s@PACKAGE_VERSION@$PACKAGE_VERSION@;s@PACKAGE_DATE@$(date -R)@" debian/changelog
 
     - name: Set up Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v6
       with:
         node-version: '20'
 
@@ -42,14 +42,6 @@ jobs:
         sudo apt-get install -qq --yes eatmydata
         sudo eatmydata apt-get -qq update
         sudo eatmydata apt-get install -qq -y build-essential debhelper dh-nodejs
-
-    - name: Cache npm packages
-      uses: actions/cache@v3
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-npm-
 
     - name: Install dependencies
       run: eatmydata npm ci
